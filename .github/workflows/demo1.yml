@@ -1,0 +1,27 @@
+name : Deployment Test
+on : 
+  pull_request:
+    types: opened
+  workflow_dispatch:      
+jobs: 
+  test : 
+    runs-on : ubuntu-20.04
+    steps : 
+      - name : Get Code
+        uses: actions/checkout@v4
+      - name : Install dependacies
+        run : npm ci 
+      - name : Run Tests
+        run : npm test 
+  deploy :
+    needs : test
+    runs-on : ubuntu-20.04  
+    steps :    
+      - name : Get Code
+        uses: actions/checkout@v4    
+      - name : Install dependacies
+        run : npm ci 
+      - name : Build Project
+        run : npm run build   
+      - name : Deploy
+        run : echo "Deploying..."           
